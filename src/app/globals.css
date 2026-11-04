@@ -3,6 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+    --space-mono: var(--font-space-mono);
+  --jakarta: var(--font-jakarta);
 }
 
 @theme inline {
@@ -23,4 +25,50 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+ 
+/* Custom Utility Classes */
+
+.font-tech-body , h1 , h2 , h3, p,font {
+  font-family: var(--font-jakarta), sans-serif !important;
+}
+
+.hero-gradient {
+  /* 1. Mobile position: Bottom Right (e.g., 90% 85%) */
+  --gradient-pos: circle at 80% 73%;
+  
+  /* Apply the gradient utilizing your custom position property */
+  background: radial-gradient(
+    var(--gradient-pos), 
+    #FFE87C 0%, 
+    rgba(255, 215, 0, 0.5) 0%, 
+    rgba(184, 134, 11, 0.25) 30%, 
+    rgba(6, 7, 9, 1) 85%
+  );
+}
+
+@media (min-width: 768px) {
+  .hero-gradient {
+    --gradient-pos: circle at 90% 27%;
+  }
+}
+
+.autopage-glow {
+  /* 1. Mobile position: Bottom Right (e.g., 90% 85%) */
+  --gradient-pos: circle at 90% 0%;
+  
+  /* Apply the gradient utilizing your custom position property */
+  background: radial-gradient(
+    var(--gradient-pos), 
+    #FFE87C 0%, 
+    rgba(255, 215, 0, 0.5) 0%, 
+    rgba(184, 134, 11, 0.25) 0%, 
+    rgba(6, 7, 9, 1) 85%
+  );
+}
+
+@media (min-width: 768px) {
+  .autopage-glow {
+    --gradient-pos: circle at 90% 0%;
+  }
 }
