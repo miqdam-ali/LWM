@@ -6,7 +6,7 @@ const getTagStyle = (tag) => {
   switch (tag?.toLowerCase()) {
     case 'available':
       return 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400';
-     case 'working on':
+     case 'working':
       return 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400';  
     case 'pending':
       return 'bg-orange-500/10 border-orange-500/30 text-orange-400';
@@ -19,8 +19,8 @@ const getTagStyle = (tag) => {
 
 const SkillCard = ({ id, title, subtitle, description, tags }) => {
   const [votes, setVotes] = useState(0);
+  const [isVoting, setIsVoting] = useState(false); // <--- Loading state
 
-  // Component mount hone par database se votes fetch karo
   useEffect(() => {
     const fetchVotes = async () => {
       const res = await getSkillVotes(id);
@@ -31,16 +31,16 @@ const SkillCard = ({ id, title, subtitle, description, tags }) => {
     fetchVotes();
   }, [id]);
 
-  // Vote button click handler
   const handleVote = async () => {
-    // Optimistic UI update (for instant click feedback)
+    setIsVoting(true); // <--- Loading start
+    // Optimistic UI update
     setVotes(prev => prev + 1);
 
     const res = await incrementVote(id);
     if (!res.success) {
-      // Agar fail ho jaye toh wapas purana count kar do
-      setVotes(prev => prev - 1);
+      setVotes(prev => prev - 1); // Rollback on error
     }
+    setIsVoting(false); // <--- Loading finish
   };
 
   return (
@@ -52,10 +52,10 @@ const SkillCard = ({ id, title, subtitle, description, tags }) => {
       )}
 
       <div>
-        <h3 className="text-yellow-500 font-bold text-lg sm:text-xl tracking-wide mb-2 pr-20">
+        <h1 className="text-yellow-500 font-bold text-lg sm:text-xl tracking-wide mb-2 pr-20">
           {title}
-        </h3>
-        <h4 className="text-slate-400 text-sm">{subtitle}</h4>
+        </h1>
+        <h2 className="text-slate-400 text-sm">{subtitle}</h2>
         <p className="text-sm text-slate-300 mt-3 leading-relaxed">
           {description}
         </p>
@@ -63,12 +63,21 @@ const SkillCard = ({ id, title, subtitle, description, tags }) => {
         <div className="flex justify-between items-center mt-6 pt-4 border-t border-slate-800/60">
           <button
             onClick={handleVote}
-            className="bg-yellow-500 hover:bg-yellow-400 transition-colors text-black font-semibold px-6 py-2 rounded-xl text-sm cursor-pointer"
+            disabled={isVoting}
+            className="bg-yellow-500 hover:bg-yellow-400 transition-colors text-black font-semibold px-6 py-2 rounded-xl text-sm cursor-pointer disabled:opacity-50"
           >
-            Vote
+            {isVoting ? "Voting..." : "Vote"}
           </button>
-          <p className="text-slate-300 font-medium">
-            Votes: <span className="border border-yellow-500 px-4 py-1 text-yellow-500 rounded-lg ml-2">{votes}</span>
+          
+          <p className="text-slate-300 font-medium flex items-center gap-2">
+            Votes: 
+            <span className="border border-yellow-500 px-4 py-1 text-yellow-500 rounded-lg flex items-center justify-center min-w-[50px]">
+              {isVoting ? (
+                <div className="w-3 h-3 border-2 border-yellow-500 border-t-transparent rounded-full animate-spin" />
+              ) : (
+                votes
+              )}
+            </span>
           </p>
         </div>
       </div>
@@ -89,7 +98,7 @@ export default function Page() {
     {
       id: "Supabase-modern-backend-architecture",
       title: "SUPABASE & MODERN ARCHITECTURE",
-      tags: 'Working On',
+      tags: 'Working',
       subtitle: "PostgreSQL, Auth and Real Time Sync",
       description: "Learn complete backend engineering by masterfully combining database management with secure authentication protocols."
     },

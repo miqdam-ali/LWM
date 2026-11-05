@@ -25,7 +25,9 @@ const Page = () => {
   };
 
   useEffect(() => {
-    const savedIds = JSON.parse(localStorage.getItem("my_interest_ids") || "[]");
+    const savedIds = JSON.parse(
+      localStorage.getItem("my_interest_ids") || "[]",
+    );
     setMyTaskIds(savedIds);
     loadTasks();
   }, []);
@@ -88,7 +90,7 @@ const Page = () => {
     if (res.success) {
       showToast("success", res.message);
       setdeletebox(false);
-      
+
       const updatedIds = myTaskIds.filter((id) => id !== selectedId);
       setMyTaskIds(updatedIds);
       localStorage.setItem("my_interest_ids", JSON.stringify(updatedIds));
@@ -110,7 +112,9 @@ const Page = () => {
             {isLoading && !toast ? (
               <>
                 <div className="w-8 h-8 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin" />
-                <p className="text-slate-300 font-medium text-sm">Processing...</p>
+                <p className="text-slate-300 font-medium text-sm">
+                  Processing...
+                </p>
               </>
             ) : (
               <>
@@ -137,7 +141,10 @@ const Page = () => {
 
       {/* Form */}
       <div className="max-w-lg mx-auto">
-        <form onSubmit={handleAddSubmit} className="flex flex-col sm:flex-row gap-3">
+        <form
+          onSubmit={handleAddSubmit}
+          className="flex flex-col sm:flex-row gap-3"
+        >
           <input
             type="text"
             name="Interest"
@@ -147,7 +154,7 @@ const Page = () => {
           />
           <button
             type="submit"
-            className="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-xl hover:bg-yellow-400 cursor-pointer whitespace-nowrap"
+            className="bg-yellow-500 flex self-center text-black font-semibold px-6 py-3 rounded-xl hover:bg-yellow-400 cursor-pointer whitespace-nowrap"
           >
             Submit
           </button>
@@ -157,52 +164,65 @@ const Page = () => {
       {/* Task List Grid (4 Columns) */}
       <div className="mt-12">
         <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6">
-          {tasks.map((task) => {
-            const isOwner = myTaskIds.includes(task.id);
+        { tasks.length === 0 ? (
+            // Agar tasks empty hon
+            <div className="col-span-full flex flex-col items-center justify-center py-20 gap-3">
+              <div className="w-8 h-8 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin" />
+              <p className="text-slate-400 text-sm font-medium tracking-wider">
+                Loading interests...
+              </p>
+            </div>
+          ) : (
+            // Jab data load ho jaye toh real tasks render hon
+            tasks.map((task) => {
+              const isOwner = myTaskIds.includes(task.id);
 
-            return (
-              <div
-                key={task.id}
-                className="bg-slate-900/60 border border-yellow-500/40 p-5 rounded-2xl flex flex-col justify-between backdrop-blur-sm shadow-lg"
-              >
-                <p className="text-slate-200 font-medium tracking-wide mb-6 ">
-                  {task.Interest}
-                </p>
+              return (
+                <div
+                  key={task.id}
+                  className="bg-slate-900/60 border border-yellow-500/40 p-5 rounded-2xl flex flex-col justify-between backdrop-blur-sm shadow-lg"
+                >
+                  <p className="text-slate-200 font-medium tracking-wide mb-6 break-words">
+                    {task.Interest}
+                  </p>
 
-                <div className="flex items-center justify-between pt-3 border-t border-slate-800/80">
-                  <span className="text-[10px] text-slate-500">
-                    {isOwner ? "Your Interest" : "Public"}
-                  </span>
+                  <div className="flex items-center justify-between pt-3 border-t border-slate-800/80">
+                    <span className="text-[10px] text-slate-500">
+                      {isOwner ? "Your Interest" : "Public"}
+                    </span>
 
-                  {isOwner ? (
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => {
-                          setSelectedId(task.id);
-                          setEditInputVal(task.Interest);
-                          seteditboxopen(true);
-                        }}
-                        className="p-1.5 bg-slate-800 text-yellow-400 rounded-lg text-xs font-semibold hover:bg-yellow-500/20 cursor-pointer"
-                      >
-                        <Edit3 size={14} />
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSelectedId(task.id);
-                          setdeletebox(true);
-                        }}
-                        className="p-1.5 bg-slate-800 text-red-400 rounded-lg text-xs font-semibold hover:bg-red-500/20 cursor-pointer"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  ) : (
-                    <span className="text-[10px] text-slate-600 italic">Locked</span>
-                  )}
+                    {isOwner ? (
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => {
+                            setSelectedId(task.id);
+                            setEditInputVal(task.Interest);
+                            seteditboxopen(true);
+                          }}
+                          className="p-1.5 bg-slate-800 text-yellow-400 rounded-lg text-xs font-semibold hover:bg-yellow-500/20 cursor-pointer"
+                        >
+                          <Edit3 size={14} />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setSelectedId(task.id);
+                            setdeletebox(true);
+                          }}
+                          className="p-1.5 bg-slate-800 text-red-400 rounded-lg text-xs font-semibold hover:bg-red-500/20 cursor-pointer"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    ) : (
+                      <span className="text-[10px] text-slate-600 italic">
+                        Locked
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
 

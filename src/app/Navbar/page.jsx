@@ -88,7 +88,7 @@ const Navbar = () => {
               <Link
                 href="/"
                 onClick={() => setIsOpen(false)}
-                className=" hover:text-yellow-500 transition-colors py-2 border-b border-slate-800/60 text-center"
+                className=" hover:text-yellow-500 transition-colors py-2  text-center"
               >
                 Home
               </Link>
@@ -96,7 +96,7 @@ const Navbar = () => {
               <Link
                 href="/Interest"
                 onClick={() => setIsOpen(false)}
-                className="hover:text-yellow-500 transition-colors py-2 border-b border-slate-800/60 text-center"
+                className="hover:text-yellow-500 transition-colors py-2 text-center"
               >
                 Drop Your Interest
               </Link>
@@ -104,7 +104,7 @@ const Navbar = () => {
               <Link
                 href="/PopularSkill"
                 onClick={() => setIsOpen(false)}
-                className="hover:text-yellow-500 transition-colors py-2 border-b border-slate-800/60 text-center"
+                className="hover:text-yellow-500 transition-colors py-2  text-center"
               >
                 Popular Skills
               </Link>
