@@ -24,13 +24,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-<meta name="google-site-verification" content="hDcONKJt3Nm2rSq8ZntZAuPfxEjfLnySgODxIMSPlsI" />
 export const metadata: Metadata = { 
   title: "LWM", 
   description: "Learn Work Master", 
   verification: { 
-    google: 'googleb3441873da13b196.html', // Next.js automatically maps this to the google-site-verification tag
+    google: 'hDcONKJt3Nm2rSq8ZntZAuPfxEjfLnySgODxIMSPlsI', 
   }, 
+  
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
