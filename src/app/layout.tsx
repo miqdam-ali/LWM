@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
+<meta name="google-site-verification" content="hDcONKJt3Nm2rSq8ZntZAuPfxEjfLnySgODxIMSPlsI" />
 export const metadata: Metadata = { 
   title: "LWM", 
   description: "Learn Work Master", 
